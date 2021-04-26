@@ -66,22 +66,22 @@
 
 
 
-#define TIMER1_u8_OC1_DISCONNECTED		0
-#define TIMER1_u8_OC1_TOGGLE			1
-#define TIMER1_u8_OC1_CLEAR				2
-#define TIMER1_u8_OC1_SET				3
+#define TIMER1_u8_OC1_DISCONNECTED			0
+#define TIMER1_u8_OC1_TOGGLE				1
+#define TIMER1_u8_OC1_CLEAR					2
+#define TIMER1_u8_OC1_SET					3
 
 
-#define	TIMER1_u8_STOP					0
-#define	TIMER1_u8_DIV_BY_1				1
-#define TIMER1_u8_DIV_BY_8				2
-#define TIMER1_u8_DIV_BY_64				3
-#define TIMER1_u8_DIV_BY_256			4
-#define TIMER1_u8_DIV_BY_1024			5
+#define	TIMER1_u8_STOP						0
+#define	TIMER1_u8_DIV_BY_1					1
+#define TIMER1_u8_DIV_BY_8					2
+#define TIMER1_u8_DIV_BY_64					3
+#define TIMER1_u8_DIV_BY_256				4
+#define TIMER1_u8_DIV_BY_1024				5
 
 
-#define	TIMER1_u8_DISABLE_INTERRUPT		0
-#define	TIMER1_u8_ENABLE_INTERRUPT		1
+#define	TIMER1_u8_FALLING_INPUT_CAPTURE		0
+#define	TIMER1_u8_RISING_INPUT_CAPTURE		1
 
 
 
@@ -139,12 +139,12 @@ void TIMER_voidDisableCTCINT(u8 Copy_u8Timer);
 void TIMER_voidClearCTCFlag(u8 Copy_u8Timer);
 
 
+
+
 void TIMER0_voidSetOVFCallBack(void (*Copy_pvoidCallBack) (void));
 void TIMER0_voidSetCTCCallBack(void (*Copy_pvoidCallBack) (void));
 
 void TIMER0_voidForceOutputCompare(void);
-
-
 
 
 
