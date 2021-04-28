@@ -10,8 +10,18 @@
 
 #define NULL 		0
 
-void (*TIMER_OVF_CallBack[2])(void) = {NULL};
-void (*TIMER_CTC_CallBack[2])(void) = {NULL};
+#define TIMER0_OVF_CALLBACK_INDEX				0
+#define TIMER1_OVF_CALLBACK_INDEX				1
+#define TIMER2_OVF_CALLBACK_INDEX				2
+
+#define TIMER0_CTC_CALLBACK_INDEX				3
+#define TIMER1_CTC_CHANNEL_A_CALLBACK_INDEX		4
+#define TIMER1_CTC_CHANNEL_B_CALLBACK_INDEX		5
+#define TIMER2_CTC_CALLBACK_INDEX				6
+
+#define TIMER1_INPUT_CAPTURE_CALLBACK_INDEX		7
+
+void (*TIMER_CallBack[8])(void) = {NULL};
 
 
 
@@ -101,6 +111,25 @@ void __vector_9(void) __attribute__((signal));
 #define TCCR2   (* (volatile u8 *) (0x45))
 #define TCNT2   (* (volatile u8 *) (0x44))
 #define OCR2    (* (volatile u8 *) (0x43))
+
+
+#define	FOC2	7
+#define WGM20	6
+#define COM21	5
+#define COM20	4
+#define WGM21	3
+#define	CS22	2
+#define	CS21	1
+#define	CS20	0
+
+
+#define TOIE2	6
+#define OCIE2	7
+
+#define TOV2	6
+#define OCF2	7
+void __vector_4(void) __attribute__((signal));
+void __vector_5(void) __attribute__((signal));
 
 
 

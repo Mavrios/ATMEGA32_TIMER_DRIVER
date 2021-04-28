@@ -232,143 +232,129 @@ void TIMER_voidInit(void){
 	#endif
 #endif
 
+		/*										TIMER2											*/
 
+	#ifdef TIMER2_ENABLE
+		#if TIMER2_u8_WAVEFORM_MODE == TIMER2_u8_NORMAL
+			CLR_BIT(TCCR2,WGM20);
+			CLR_BIT(TCCR2,WGM21);
+		#elif TIMER2_u8_WAVEFORM_MODE == TIMER2_u8_PWM_PHASE_CORRECT
+			SET_BIT(TCCR2,WGM20);
+			CLR_BIT(TCCR2,WGM21);
+		#elif TIMER2_u8_WAVEFORM_MODE == TIMER2_u8_CTC
+			CLR_BIT(TCCR2,WGM20);
+			SET_BIT(TCCR2,WGM21);
+		#elif TIMER2_u8_WAVEFORM_MODE == TIMER2_u8_FAST_PWM
+			SET_BIT(TCCR2,WGM20);
+			SET_BIT(TCCR2,WGM21);
+		#endif
+
+		#if	TIMER2_u8_OUTPUT_MODE == TIMER2_OC2_DISCONNECTED
+			CLR_BIT(TCCR2,COM20);
+			CLR_BIT(TCCR2,COM21);
+		#elif TIMER2_u8_OUTPUT_MODE == TIMER2_u8_OC2_TOGGLE
+			#if	TIMER2_u8_WAVEFORM_MODE == TIMER2_u8_PWM_PHASE_CORRECT || TIMER2_u8_WAVEFORM_MODE == TIMER2_u8_FAST_PWM
+			#warning ("CHOOSED UNAVAILABLE OPTION IN TIMER OUTPUT MODE!!")
+			#else
+				SET_BIT(TCCR2,COM20);
+				CLR_BIT(TCCR2,COM21);
+			#endif
+		#elif TIMER2_u8_OUTPUT_MODE == TIMER2_u8_OC2_CLEAR
+			CLR_BIT(TCCR2,COM20);
+			SET_BIT(TCCR2,COM21);
+		#elif TIMER2_u8_OUTPUT_MODE == TIMER2_u8_OC2_SET
+			SET_BIT(TCCR2,COM20);
+			SET_BIT(TCCR2,COM21);
+		#endif
+
+		#if TIMER2_u8_PRESCALLER == TIMER2_u8_STOP
+			CLR_BIT(TCCR2,CS20);
+			CLR_BIT(TCCR2,CS21);
+			CLR_BIT(TCCR2,CS22);
+		#elif TIMER2_u8_PRESCALLER == TIMER2_u8_DIV_BY_1
+			SET_BIT(TCCR2,CS20);
+			CLR_BIT(TCCR2,CS21);
+			CLR_BIT(TCCR2,CS22);
+		#elif TIMER2_u8_PRESCALLER == TIMER2_u8_DIV_BY_8
+			CLR_BIT(TCCR2,CS20);
+			SET_BIT(TCCR2,CS21);
+			CLR_BIT(TCCR2,CS22);
+		#elif TIMER2_u8_PRESCALLER == TIMER2_u8_DIV_BY_32
+			SET_BIT(TCCR2,CS20);
+			SET_BIT(TCCR2,CS21);
+			CLR_BIT(TCCR2,CS22);
+		#elif TIMER2_u8_PRESCALLER == TIMER2_u8_DIV_BY_64
+			CLR_BIT(TCCR2,CS20);
+			CLR_BIT(TCCR2,CS21);
+			SET_BIT(TCCR2,CS22);
+		#elif TIMER2_u8_PRESCALLER == TIMER2_u8_DIV_BY_128
+			SET_BIT(TCCR2,CS20);
+			CLR_BIT(TCCR2,CS21);
+			SET_BIT(TCCR2,CS22);
+		#elif TIMER2_u8_PRESCALLER == TIMER2_u8_DIV_BY_256
+			CLR_BIT(TCCR2,CS20);
+			SET_BIT(TCCR2,CS21);
+			SET_BIT(TCCR2,CS22);
+		#elif TIMER2_u8_PRESCALLER == TIMER2_u8_DIV_BY_1024
+			SET_BIT(TCCR2,CS20);
+			SET_BIT(TCCR2,CS21);
+			SET_BIT(TCCR2,CS22);
+		#endif
+
+		#if TIMER2_u8_INTERRUPT == TIMER2_u8_ENABLE_INTERRUPT
+			#if TIMER2_u8_WAVEFORM_MODE == TIMER2_u8_NORMAL
+				SET_BIT(TIMSK,TOIE2);
+			#elif TIMER2_u8_WAVEFORM_MODE == TIMER2_u8_CTC
+				SET_BIT(TIMSK,OCIE2);
+			#endif
+
+		#endif
+	#endif
 
 }
-void TIMER_voidSetOVFRegister(u8 Copy_u8Timer , u16 Copy_u16Value){
-	switch (Copy_u8Timer){
-		case TIMER_u8_TIMER_0:
-			TCNT0 = Copy_u16Value;
-			break;
 
-		case TIMER_u8_TIMER_1:
-			TCNT1 = Copy_u16Value;
-			break;
-		case TIMER_u8_TIMER_2:
-			TCNT2 = Copy_u16Value;
-			break;
+/*										TIMER0											*/
 
-	}
+void TIMER0_voidSetOVFRegister(u8 Copy_u8Value){
+			TCNT0 = Copy_u8Value;
 }
 
-void TIMER_voidSetCTCRegister(u8 Copy_u8Timer , u16 Copy_u16Value){
-	switch (Copy_u8Timer){
-		case TIMER_u8_TIMER_0:
-			OCR0 = Copy_u16Value;
-			break;
-
-		case TIMER_u8_TIMER_1:
-			OCR1A = Copy_u16Value;
-			break;
-		case TIMER_u8_TIMER_2:
-			OCR2 = Copy_u16Value;
-			break;
-
-	}
+void TIMER0_voidSetCTCRegister(u8 Copy_u8Value){
+			OCR0 = Copy_u8Value;
 }
 
-void TIMER_voidEnableOVFINT(u8 Copy_u8Timer){
-	switch (Copy_u8Timer){
-		case TIMER_u8_TIMER_0:
-			SET_BIT(TIMSK , TOIE0);
-			break;
-		/*
-		case TIMER_u8_TIMER_1:
-			SET_BIT(TIMSK , TOIE0);
-			break;
-		case TIMER_u8_TIMER_2:
-			SET_BIT(TIMSK , TOIE0);
-			break;
-			*/
-	}
+void TIMER0_voidEnableOVFINT(void){
+	SET_BIT(TIMSK , TOIE0);
+
 }
 
-void TIMER_voidDisableOVFINT(u8 Copy_u8Timer){
-	switch (Copy_u8Timer){
-		case TIMER_u8_TIMER_0:
-			CLR_BIT(TIMSK , TOIE0);
-			break;
-		/*
-		case TIMER_u8_TIMER_1:
-			CLR_BIT(TIMSK , TOIE0);
-			break;
-		case TIMER_u8_TIMER_2:
-			CLR_BIT(TIMSK , TOIE0);
-			break;
-			*/
-	}
+void TIMER0_voidDisableOVFINT(void){
+	CLR_BIT(TIMSK , TOIE0);
 }
 
-void TIMER_voidClearOVFFlag(u8 Copy_u8Timer){
-	switch (Copy_u8Timer){
-		case TIMER_u8_TIMER_0:
-			SET_BIT(TIFR , TOV0);
-			break;
-		/*
-		case TIMER_u8_TIMER_1:
-			SET_BIT(TIFR , TOV0);
-			break;
-		case TIMER_u8_TIMER_2:
-			SET_BIT(TIFR , TOV0);
-			break;
-			*/
-	}
-}
+void TIMER0_voidClearOVFFlag(void){
+	SET_BIT(TIFR , TOV0);
 
-
-void TIMER_voidEnableCTCINT(u8 Copy_u8Timer){
-	switch (Copy_u8Timer){
-		case TIMER_u8_TIMER_0:
-			SET_BIT(TIMSK , OCIE0);
-			break;
-		/*
-		case TIMER_u8_TIMER_1:
-			SET_BIT(TIMSK , TOIE0);
-			break;
-		case TIMER_u8_TIMER_2:
-			SET_BIT(TIMSK , TOIE0);
-			break;
-			*/
-	}
-}
-
-
-void TIMER_voidDisableCTCINT(u8 Copy_u8Timer){
-	switch (Copy_u8Timer){
-		case TIMER_u8_TIMER_0:
-			CLR_BIT(TIMSK , OCIE0);
-			break;
-		/*
-		case TIMER_u8_TIMER_1:
-			CLR_BIT(TIMSK , TOIE0);
-			break;
-		case TIMER_u8_TIMER_2:
-			CLR_BIT(TIMSK , TOIE0);
-			break;
-			*/
-	}
 }
 
 
-void TIMER_voidClearCTCFlag(u8 Copy_u8Timer){
-	switch (Copy_u8Timer){
-		case TIMER_u8_TIMER_0:
-			SET_BIT(TIFR , OCF0);
-			break;
-		/*
-		case TIMER_u8_TIMER_1:
-			SET_BIT(TIFR , OCF0);
-			break;
-		case TIMER_u8_TIMER_2:
-			SET_BIT(TIFR , OCF0);
-			break;
-			*/
-	}
+void TIMER0_voidEnableCTCINT(void){
+	SET_BIT(TIMSK , OCIE0);
+}
+
+
+void TIMER0_voidDisableCTCINT(void){
+	CLR_BIT(TIMSK , OCIE0);
+}
+
+
+void TIMER0_voidClearCTCFlag(void){
+	SET_BIT(TIFR , OCF0);
 }
 
 void TIMER0_voidSetCTCCallBack(void (*Copy_pvoidCallBack) (void)){
 	if(Copy_pvoidCallBack != NULL){
-		TIMER_CTC_CallBack[TIMER_u8_TIMER_0] = Copy_pvoidCallBack;
+		TIMER_CallBack[TIMER0_CTC_CALLBACK_INDEX] = Copy_pvoidCallBack;
 	}
 
 }
@@ -376,7 +362,7 @@ void TIMER0_voidSetCTCCallBack(void (*Copy_pvoidCallBack) (void)){
 
 void TIMER0_voidSetOVFCallBack(void (*Copy_pvoidCallBack) (void)){
 	if(Copy_pvoidCallBack != NULL){
-		TIMER_OVF_CallBack[TIMER_u8_TIMER_0] = Copy_pvoidCallBack;
+		TIMER_CallBack[TIMER0_OVF_CALLBACK_INDEX] = Copy_pvoidCallBack;
 	}
 }
 
@@ -386,27 +372,208 @@ void TIMER0_voidForceOutputCompare(void){
 
 
 void __vector_11(void){
-	TIMER_OVF_CallBack[TIMER_u8_TIMER_0]();
-	TIMER_voidClearOVFFlag(TIMER_u8_TIMER_0);
+	TIMER_CallBack[TIMER0_OVF_CALLBACK_INDEX]();
+	TIMER0_voidClearOVFFlag();
 }
 
 
 void __vector_10(void){
-	TIMER_CTC_CallBack[TIMER_u8_TIMER_0]();
-	TIMER_voidClearCTCFlag(TIMER_u8_TIMER_0);
+	TIMER_CallBack[TIMER0_CTC_CALLBACK_INDEX]();
+	TIMER0_voidClearCTCFlag();
 }
+
+
+
+/*										TIMER1											*/
+
+
+void TIMER1_voidSetOVFRegister(u16 Copy_u16Value){
+	TCNT1 = Copy_u16Value;
+}
+
+
+void TIMER1_voidChannelASetCTCRegister(u16 Copy_u16Value){
+	OCR1A	= Copy_u16Value;
+}
+
+void TIMER1_voidChannelBSetCTCRegister(u16 Copy_u16Value){
+	OCR1B	= Copy_u16Value;
+
+}
+
+u16 TIMER1_u16InputCaptureValue(void){
+	return ICR1;
+}
+
+void TIMER1_voidEnableOVFINT(void){
+	SET_BIT(TIMSK,TOIE1);
+}
+
+void TIMER1_voidDisableOVFINT(void){
+	CLR_BIT(TIMSK,TOIE1);
+}
+
+void TIMER1_voidClearOVFFlag(void){
+	SET_BIT(TIFR,TOV1);
+}
+
+void TIMER1_voidChannelAEnableCTCINT(void){
+	SET_BIT(TIMSK,OCIE1A);
+}
+
+void TIMER1_voidChannelADisableCTCINT(void){
+	CLR_BIT(TIMSK,OCIE1A);
+}
+
+void TIMER1_voidChannelAClearCTCFlag(void){
+	SET_BIT(TIFR,OCF1A);
+}
+
+void TIMER1_voidChannelBEnableCTCINT(void){
+	SET_BIT(TIMSK,OCIE1B);
+}
+
+void TIMER1_voidChannelBDisableCTCINT(void){
+	CLR_BIT(TIMSK,OCIE1B);
+}
+
+void TIMER1_voidChannelBClearCTCFlag(void){
+	SET_BIT(TIFR,OCF1B);
+}
+
+void TIMER1_voidEnableInputCaptureINT(void){
+	SET_BIT(TIMSK,TICIE1);
+}
+
+void TIMER1_voidDisableInputCaptureINT(void){
+	CLR_BIT(TIMSK,TICIE1);
+}
+
+void TIMER1_voidClearInputCaptureFlag(void){
+	SET_BIT(TIFR,ICF1);
+}
+
+void TIMER1_voidSetOVFCallBack(void (*Copy_pvoidCallBack) (void)){
+	TIMER_CallBack[TIMER1_OVF_CALLBACK_INDEX]=Copy_pvoidCallBack;
+}
+
+void TIMER1_voidChannelASetCTCCallBack(void (*Copy_pvoidCallBack) (void)){
+	TIMER_CallBack[TIMER1_CTC_CHANNEL_A_CALLBACK_INDEX]=Copy_pvoidCallBack;
+}
+
+
+void TIMER1_voidChannelBSetCTCCallBack(void (*Copy_pvoidCallBack) (void)){
+	TIMER_CallBack[TIMER1_CTC_CHANNEL_B_CALLBACK_INDEX]=Copy_pvoidCallBack;
+}
+
+void TIMER1_voidSetInputCaptureCallBack(void (*Copy_pvoidCallBack) (void)){
+	TIMER_CallBack[TIMER1_INPUT_CAPTURE_CALLBACK_INDEX]=Copy_pvoidCallBack;
+}
+
+void TIMER1_voidChannelAForceOutputCompare(void){
+	SET_BIT(TCCR1A,FOC1A);
+}
+
+void TIMER1_voidChannelBForceOutputCompare(void){
+	SET_BIT(TCCR1A,FOC1B);
+}
+
+
+void __vector_6(void){
+	TIMER_CallBack[TIMER1_INPUT_CAPTURE_CALLBACK_INDEX]();
+	TIMER1_voidClearInputCaptureFlag();
+}
+
+void __vector_7(void){
+	TIMER_CallBack[TIMER1_CTC_CHANNEL_A_CALLBACK_INDEX]();
+	TIMER1_voidChannelAClearCTCFlag();
+}
+
+void __vector_8(void){
+	TIMER_CallBack[TIMER1_CTC_CHANNEL_B_CALLBACK_INDEX]();
+	TIMER1_voidChannelBClearCTCFlag();
+}
+
+void __vector_9(void){
+	TIMER_CallBack[TIMER1_OVF_CALLBACK_INDEX]();
+	TIMER1_voidClearOVFFlag();
+}
+
+
+
+/*										TIMER2											*/
+
+void TIMER2_voidSetOVFRegister(u8 Copy_u8Value){
+	TCNT2 = Copy_u8Value;
+}
+
+void TIMER2_voidSetCTCRegister(u8 Copy_u8Value){
+	OCR2 = Copy_u8Value;
+}
+
+void TIMER2_voidEnableOVFINT(void){
+	SET_BIT(TIMSK , TOIE2);
+
+}
+
+void TIMER2_voidDisableOVFINT(void){
+	CLR_BIT(TIMSK , TOIE2);
+}
+
+void TIMER2_voidClearOVFFlag(void){
+	SET_BIT(TIFR , TOV2);
+
+}
+
+
+void TIMER2_voidEnableCTCINT(void){
+	SET_BIT(TIMSK , OCIE2);
+}
+
+
+void TIMER2_voidDisableCTCINT(void){
+	CLR_BIT(TIMSK , OCIE2);
+}
+
+
+void TIMER2_voidClearCTCFlag(void){
+	SET_BIT(TIFR , OCF2);
+}
+
+void TIMER2_voidSetCTCCallBack(void (*Copy_pvoidCallBack) (void)){
+	if(Copy_pvoidCallBack != NULL){
+		TIMER_CallBack[TIMER2_CTC_CALLBACK_INDEX] = Copy_pvoidCallBack;
+	}
+
+}
+
+
+void TIMER2_voidSetOVFCallBack(void (*Copy_pvoidCallBack) (void)){
+	if(Copy_pvoidCallBack != NULL){
+		TIMER_CallBack[TIMER2_OVF_CALLBACK_INDEX] = Copy_pvoidCallBack;
+	}
+}
+
+void TIMER2_voidForceOutputCompare(void){
+	SET_BIT(TCCR2,FOC2);
+}
+
+
+void __vector_5(void){
+	TIMER_CallBack[TIMER2_OVF_CALLBACK_INDEX]();
+	TIMER2_voidClearOVFFlag();
+}
+
+
+void __vector_4(void){
+	TIMER_CallBack[TIMER2_CTC_CALLBACK_INDEX]();
+	TIMER2_voidClearCTCFlag();
+}
+
 
 
 /*
 //void TIMER_voidPostInit(const Timer_Configration *  Cpy_Configuration);
-
-
-
-
-
-
-void TIMER_voidForceOutputCompare(u8 Copy_u8Timer);
-
 
 */
 

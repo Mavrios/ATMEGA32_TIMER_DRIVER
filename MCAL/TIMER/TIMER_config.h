@@ -174,7 +174,7 @@
  *
  */
 
-#define TIMER1_u8_PRESCALLER	TIMER0_u8_DIV_BY_1
+#define TIMER1_u8_PRESCALLER	TIMER1_u8_DIV_BY_1
 
 
 /*
@@ -189,6 +189,81 @@
 
 #define TIMER1_u8_INPUT_CAPTURE	TIMER1_u8_FALLING_INPUT_CAPTURE
 
+/*----------------------------------------------------------------------------------------------------------------------------------*/
+
+/* 				TIMER 2 CONFIGURATION				*/
+
+/*
+ * 				UNCOMMENT TO ENABLE  TIMER 2
+ * 				COMMENT   TO DISABLE TIMER 2
+ */
+
+#define TIMER2_ENABLE
+
+/*
+ * 				WAVEFORM GENERATION MODE
+ *
+ * OPTIONS:-
+ * 			1-TIMER2_u8_NORMAL
+ * 			2-TIMER2_u8_PWM_PHASE_CORRECT
+ * 			3-TIMER2_u8_CTC
+ * 			4-TIMER2_u8_FAST_PWM
+ */
+
+#define TIMER2_u8_WAVEFORM_MODE	TIMER2_u8_NORMAL
+
+/*
+ * 				OUTPUT MODE  OC2 (PORTD 7)
+ *
+ * OPTIONS (NON-PWM MODE):-
+ * 			1-TIMER2_u8_OC2_DISCONNECTED
+ * 			2-TIMER2_u8_OC2_TOGGLE
+ * 			3-TIMER2_u8_OC2_CLEAR
+ * 			4-TIMER2_u8_OC2_SET
+ *
+ * OPTIONS (FAST-PWM MODE):-
+ * 			1-TIMER2_u8_OC2_DISCONNECTED
+ * 			2-TIMER2_u8_OC2_CLEAR			(Clear OC2 on compare match, set OC2 at TOP)
+ * 			3-TIMER2_u8_OC2_SET				(Set OC2 on compare match, clear OC2 at TOP)
+ *
+ * OPTIONS (PHASE-CORRECT-PWM MODE):-
+ * 			1-TIMER2_u8_OC2_DISCONNECTED
+ * 			2-TIMER2_u8_OC2_CLEAR			(Clear OC2 on compare match when up-counting. Set OC2 on comparematch when downcounting.)
+ * 			3-TIMER2_u8_OC2_SET				(Set OC2 on compare match when up-counting. Clear OC2 on compare match when downcounting.)
+ */
+
+
+#define TIMER2_u8_OUTPUT_MODE	TIMER2_OC2_DISCONNECTED
+
+
+/*
+ * 				PRESCALLER
+ *
+ * OPTIONS:-
+ * 			1-TIMER2_u8_STOP				(No clock source (Timer/Counter stopped).)
+ * 			2-TIMER2_u8_DIV_BY_1
+ * 			3-TIMER2_u8_DIV_BY_8
+ * 			4-TIMER2_u8_DIV_BY_32
+ * 			5-TIMER2_u8_DIV_BY_64
+ * 			6-TIMER2_u8_DIV_BY_128
+ * 			7-TIMER2_u8_DIV_BY_256
+ * 			8-TIMER2_u8_DIV_BY_1024
+ *
+ */
+
+#define TIMER2_u8_PRESCALLER	TIMER2_u8_DIV_BY_1
+
+
+/*
+ * 				INTERRUPT
+ *
+ * OPTIONS:-
+ * 			1-TIMER2_u8_ENABLE_INTERRUPT
+ * 			2-TIMER2_u8_DISABLE_INTERRUPT
+ *
+ */
+
+#define TIMER2_u8_INTERRUPT		TIMER2_u8_DISABLE_INTERRUPT
 
 
 
